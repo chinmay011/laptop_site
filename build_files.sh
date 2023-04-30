@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Build the project
-echo "Building the project..."
-python3.9 -m pip install -r requirements.txt
+# Install dependencies
+pip install -r requirements.txt
 
-echo "Make Migration..."
-python3.9 manage.py makemigrations --noinput
-python3.9 manage.py migrate --noinput
+# Collect static files
+python manage.py collectstatic --noinput
 
-echo "Collect Static..."
-python3.9 manage.py collectstatic --noinput --clear
+# Migrate database
+python manage.py migrate
+
+# Load fixtures (if any)
+python manage.py loaddata fixtures/*.json
